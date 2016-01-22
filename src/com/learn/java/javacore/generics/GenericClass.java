@@ -3,8 +3,11 @@ package com.learn.java.javacore.generics;
 /**
  * A simple generic class. A generic class is a class with one or more type variables(T and U in our case).
  * These type variables make the class act as a template which can receive whatever types as type parameters.
- * Generic code is only compile time. After compilation, type erasure happens and all the generic code is converted to raw for compatibility reasons.
- * In out case both T and U (in field and method usage) will be of replaced with Object. The "<T,U>" from class declaration will be removed and only GenericClass will remain.
+ * Generic code is only compile time. After compilation, type erasure happens and the generic type becomes raw type (GenericClass instead of GenericClass<T,U>).
+ * In out case both T and U will be of replaced with Object. The "<T,U>" from class/method declaration will be removed.
+ * After type erasure, the compiler inserts casts. The result of type erasure is an ordinary class.
+ * Type erasure helps backward compatibility.
+ * !!! Generics must be compiled on java 1.5+, but resulting classes can run on pre java 1.5. (-source 1.5 -target 1.4)
  * Created by Ionut Barau on 21.01.2016.
  */
 public class GenericClass<T,U> {
