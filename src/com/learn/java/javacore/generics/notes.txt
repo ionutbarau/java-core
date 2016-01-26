@@ -65,8 +65,9 @@ They are used only as reference parameters (int the caller class).
    We cannot modify the type parameter reference after this (through setter for example) by putting another Serializable. The compiler will complain because it does not know which
    subtype implementation is receiving. Getting the value however is possible and can be assigned to a Serializable reference.
 2. Supertype wildcard bounds (? super Serializable) - only supertype of Serializable in our case can be used when constructing our parameterized type.
-   We can modify the type parameter reference after this (through setter for example) by putting another supertype of Serializable. The compiler will not complain because it does not know which
-   subtype implementation is receiving. Getting the value however is possible and can be assigned to a Serializable reference.
+   We can modify the type parameter reference after this (through setter for example) by putting another Serializable or subtype of Serializable. The compiler will not complain
+   because
+   the reference is a super type. Getting the value and assign it to a reference however is not possible because the actual implementation can vary.
 
 
 

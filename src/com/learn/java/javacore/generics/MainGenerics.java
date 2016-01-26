@@ -1,5 +1,9 @@
 package com.learn.java.javacore.generics;
 
+import com.learn.java.javacore.model.Employee;
+import com.learn.java.javacore.model.Manager;
+import com.learn.java.javacore.model.Workable;
+
 import java.io.Serializable;
 
 /**
@@ -26,14 +30,17 @@ public class MainGenerics {
 
 
         //Generic wildcard subtype example
-        GenericClassExample<? extends Serializable,? extends Serializable> genericSubtypeWildcard = new GenericClassExample<>("abc","abc");
-        //genericSubtypeWildcard.settField("def"); //ERROR because the compiler does not want to corrupt the data with another subtype implementation. It has no clue about the subtype that we pass
-        Serializable s = genericSubtypeWildcard.gettField(); //Works because whatever is in GenericClassExample is a serializable
+        GenericClassExample<? extends Employee,? extends Employee> genericSubtypeWildcard = new GenericClassExample<>(new Employee(),new Employee());
+        //ERROR because the compiler does not want to corrupt the data with another subtype implementation. It has no clue about the subtype that we pass.
+        // Modifying the generic object is
+        //genericSubtypeWildcard.settField(new Manager());
+        //genericSubtypeWildcard.settField(new Employee())
+        Workable s = genericSubtypeWildcard.gettField(); //Works because whatever is in GenericClassExample is a serializable
 
 
         //Generic wildcard subtype example
-        GenericClassExample<? extends Serializable,? extends Serializable> genericSuperWildcard = new GenericClassExample<>("abc","abc");
-
+        GenericClassExample<? super Employee,? super Employee> genericSuperWildcard = new GenericClassExample<>(new Employee(),new Employee());
+        genericSuperWildcard.settField(new Manager());
 
     }
 }
