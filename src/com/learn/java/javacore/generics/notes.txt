@@ -1,0 +1,73 @@
+### Glossary ###
+1. generic type = type (class) with type parameters
+2. parameterized type = an instantiation of a generic type with actual type arguments
+3. type parameter <T> = a placeholder that will be later replaced by type argument
+4. raw type = a generic type without type parameters Eg. GenericClass instead of GenericClass<T,U>
+5. bound type = type parameter replaced after type erasure with a class/interface that was defined as super type for the type parameter
+6. unbound type = type parameter replaced after type erasure with Object
+
+
+### Restrictions and limitations ###
+
+1. Primitive types are not allowed as type parameters because of type erasure.
+   After type erasure, the class has a fields of type object (or bound type if present), which cannot be used to store primitives.
+
+2. Casts, instanceof and getClass() will return/can be used with only raw types.
+   (GenericClass<String,Integer>.getClass(); instanceof MyGenericType<String>; (MyGenericType<String>)genericObj will throw compilation error).
+   Also GenericClass.getClass() will return raw type (GenericClass) even if it was declared with type parameters.
+
+3. Objects of a generic class cannot be thrown nor caught. Generic classes cannot even extend Throwable (but the type parameter can).
+   Even though you cannot use a type variable in the catch clause, it is allowed to use it in the catch body.
+   Even tough it is not allowed to throw generic class objects, it is allowed to use type variables in exception specification.
+
+    public static <T extends Throwable> void doWork(T t) throws T // OK
+    {
+       try
+       {
+          do work
+       }
+       catch (Throwable realCause)
+       {
+          t.initCause(realCause);
+          throw t;
+       }
+    }
+
+4. We cannot declare arrays of generic class (GenericClass<String,Integer>[] test = new GenericClass<String,Integer>[3] does not work),
+   because after type erasure and converting the array to an Object[] array, putting a GenericClass<String> into GenericClass<Integer>[] array will result in an error.
+   However GenericClass<String,Integer>[] test = new GenericClass[3]; will work, and we will get a compilation error if we put an object with different type parameters.
+
+5. Instantiation of generic parameter types is not possible.
+   public GenericClass() { first = new T(); second = new T(); } // ERROR
+   Instantiation of arrays of generic parameter types is not possible.
+   T[] mm = new T[2]; // ERROR
+Generic parameter objects and arrays can be instantiated through reflection (Class.newInstance and Array.newInstance methods).
+
+6. You cannot reference type variables in static fields or methods. Take the case of a singleton. If we try to make a 2 objects of the generic class with different type parameters,
+   there will be only one instance. What type will be used.
+
+7. Pay attention to inherited methods after  type erasure. It is not allowed to create conditions that clash after the type is erased.
+   Consider GenericClass<String>. if we override equals , after type erasure there will be 2 methods with same signature which is illegal. the remedy is to rename the method.
+   Also a generic class cannot implement the same interface twice but with different parameters (different parameterizations of the same interface).
+
+
+### Inheritance rules ###
+
+There is no relationship between GenericClass<T> and GenericClass<U> no matter how T and U are related. It is illegal to assign one to the other.
+You can convert a generic type to a raw type, but pay attention to ClassCastException. You will get a compile time warning when trying to set a type parameter.
+Generic classes can extend or implement other generic classes. They are no different from ordinary classes. Eg. ArrayList<T> implements List<T>
+
+
+### Wildcard types ###
+Wild card types help make generic more flexible. They are not used in the generic type definition (class Generic<? extends Serializable; method/field declaration not working either> is not working).
+They are used only as reference parameters (int the caller class).
+1. Subtype wildcard bounds (? extends Serializable) - only subtype of Serializable in our case can be used when constructing our parameterized type.
+   We cannot modify the type parameter reference after this (through setter for example) by putting another Serializable. The compiler will complain because it does not know which
+   subtype implementation is receiving. Getting the value however is possible and can be assigned to a Serializable reference.
+2. Supertype wildcard bounds (? super Serializable) - only supertype of Serializable in our case can be used when constructing our parameterized type.
+   We can modify the type parameter reference after this (through setter for example) by putting another supertype of Serializable. The compiler will not complain because it does not know which
+   subtype implementation is receiving. Getting the value however is possible and can be assigned to a Serializable reference.
+
+
+
+
