@@ -12,10 +12,12 @@ import java.io.Serializable;
 public class MainGenerics {
 
     public static void main (String[] args){
+        Employee employee =  new Employee();
+        Manager manager = new Manager();
         //GenericClassExample
         //We can use the diamond operator "<>" in order to have a shorter statement. The diamond operator is present starting with Java 7.
         //If we don't use generic type (<String,Integer>) for declaration than it falls back to raw type which is unchecked.
-        GenericClassExample<String,Integer> simpleGenericClassExample = new GenericClassExample("abc", 1);
+        GenericClassExample<Manager,Employee> simpleGenericClassExample = new GenericClassExample<>(manager, employee);
         simpleGenericClassExample.print();
 
         //GenericMethodExample
@@ -35,12 +37,31 @@ public class MainGenerics {
         // Modifying the generic object is
         //genericSubtypeWildcard.settField(new Manager());
         //genericSubtypeWildcard.settField(new Employee())
-        Workable s = genericSubtypeWildcard.gettField(); //Works because whatever is in GenericClassExample is a serializable
+
+        //Works because whatever is in GenericClassExample is a Workable or Employee (can be hold in an Employee/super reference)
+        Workable s = genericSubtypeWildcard.gettField();
+        Employee e = genericSubtypeWildcard.gettField();
 
 
         //Generic wildcard subtype example
-        GenericClassExample<? super Employee,? super Employee> genericSuperWildcard = new GenericClassExample<>(new Employee(),new Employee());
+        GenericClassExample<? super Employee,? super Employee> genericSuperWildcard = new GenericClassExample<>(employee,employee);
+
+        //Works because whatever is in GenericClassExample can take an Employee or Manager (can receive a Employee/subtype reference)
+        genericSuperWildcard.settField(new Employee());
         genericSuperWildcard.settField(new Manager());
+        //ERROR because compiler does not know what super or subtype retrieves without an explicit cast.
+        //Manager m = genericSuperWildcard.gettField();
+        //Employee e = genericSuperWildcard.gettField();
+        //Workable w = genericSuperWildcard.gettField();
+
+        //Works because of cast, but it is not type safe (can get ClassCastException)
+        Manager m = (Manager) genericSuperWildcard.gettField();
+        Employee e1 = (Employee) genericSuperWildcard.gettField();
+        Workable w = (Workable) genericSuperWildcard.gettField();
+
+        //Works without cast because Object is the las in the inheritance tree
+        Object o = genericSuperWildcard.gettField();
+
 
     }
 }
