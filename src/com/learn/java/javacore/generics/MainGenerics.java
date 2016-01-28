@@ -32,13 +32,14 @@ public class MainGenerics {
 
 
         //Generic wildcard subtype example
-        GenericClassExample<? extends Employee,? extends Employee> genericSubtypeWildcard = new GenericClassExample<>(new Employee(),new Employee());
-        //ERROR because the compiler does not want to corrupt the data with another subtype implementation. It has no clue about the subtype that we pass.
-        // Modifying the generic object is
+        GenericClassExample<? extends Employee,? extends Employee> genericSubtypeWildcard = new GenericClassExample<>(employee,employee);
+        //ERROR because the compiler does not want to corrupt the data with another subtype implementation.
+        //It has no clue about the subtype that we pass so it refuses to pass any data whatsoever and try to stay type safe.
         //genericSubtypeWildcard.settField(new Manager());
         //genericSubtypeWildcard.settField(new Employee())
 
         //Works because whatever is in GenericClassExample is a Workable or Employee (can be hold in an Employee/super reference)
+        //The type declared is subtype of Employee so it can be hold in a reference that is higher in inheritance tree.
         Workable s = genericSubtypeWildcard.gettField();
         Employee e = genericSubtypeWildcard.gettField();
 
@@ -47,6 +48,7 @@ public class MainGenerics {
         GenericClassExample<? super Employee,? super Employee> genericSuperWildcard = new GenericClassExample<>(employee,employee);
 
         //Works because whatever is in GenericClassExample can take an Employee or Manager (can receive a Employee/subtype reference)
+        //The type declared is super of Employee, so it can hold everything starting with Employee and down the inheritance tree.
         genericSuperWildcard.settField(new Employee());
         genericSuperWildcard.settField(new Manager());
         //ERROR because compiler does not know what super or subtype retrieves without an explicit cast.
@@ -61,6 +63,18 @@ public class MainGenerics {
 
         //Works without cast because Object is the las in the inheritance tree
         Object o = genericSuperWildcard.gettField();
+
+
+        //Generic no bounds wildcard
+        GenericClassExample<?,?> noBoundsWildcard = new GenericClassExample<>(e,m);
+        //Cannot set the field
+        //noBoundsWildcard.settField(new Employee());
+
+        //Does not work
+        //Employee emp = noBoundsWildcard.gettField();
+
+        //Only Object reference works
+        Object obj = noBoundsWildcard.gettField();
 
 
     }

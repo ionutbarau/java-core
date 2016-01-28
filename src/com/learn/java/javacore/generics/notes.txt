@@ -59,19 +59,22 @@ Generic classes can extend or implement other generic classes. They are no diffe
 
 
 ### Wildcard types ###
-Wild card types help make generic more flexible. They are not used in the generic type definition (class Generic<? extends Serializable>; method/field declaration is not working).
+Wild card types help make generic more flexible. They are not used in the generic type definition (class Generic<? extends Serializable>; method/field declaration is not working,
+however  GenericClassExample<T extends Comparable<? super Object>> works).
 They are used only as reference parameters (in the caller class). After defining the reference with wildcard, a distinction arises between subtype and supertype wildcard bounds when it comes
 to passing them as parameters to methods and use them as return values.
 
 1. Subtype wildcard bounds (? extends Employee) - only subtype of Employee or Employee in our case can be used when constructing our parameterized type.
-   You cannot supply parameters to methods, but you can use the return values.
+   You cannot supply parameters to methods, but you can use the return values. You can use to get values only references from up the inheritance tree.
    We cannot pass the type parameter reference after this (through setter for example) by putting another Employee or subtype. The compiler will complain because it does not know which
    subtype implementation is receiving. Getting the value however is possible and can be assigned to a Employee reference or supertype.
 2. Supertype wildcard bounds (? super Employee) - only supertype of Employee in our case can be used when constructing our parameterized type.
-   You can supply parameters to methods, but you can't use the return values.
+   You can supply parameters to methods, but you can't use the return values. You can supply references from down the inheritance tree.
    We can pass the type parameter reference after this (through setter for example) by putting another Employee or subtype of Employee. The compiler will not complain
    because
    the reference is a subtype. Getting the value and assign it to a reference however is not possible because the actual implementation can vary.
+3. No bounds wildcards (<?>) -  cannot supply parameters after creation (not even Object type) and can be assigned only to Object reference.
+
 
 
 
