@@ -43,10 +43,13 @@
    T[] mm = new T[2]; // ERROR
 Generic parameter objects and arrays can be instantiated through reflection (Class.newInstance and Array.newInstance methods).
 
-6. You cannot reference type variables in static fields or methods. Take the case of a singleton. If we try to make a 2 objects of the generic class with different type parameters,
-   there will be only one instance. What type will be used.
+6. You cannot reference type variables in static fields or methods. Take the case of a singleton. If we try to make 2 objects of the generic class with different type parameters,
+   there will be only one instance. What type will be used ? However a static method can use type parameters declared at method level
+   (public static <T> T doSomething(){} - <T> should be declared before return type).
+7. You cannot instantiate generic type parameter or make an array of it (new T() or T[] myTArray = new T[3] will not work).
+   However, you can construct generic objects and arrays through reflection, by calling the Class.newInstance and Array.newInstance methods
 
-7. Pay attention to inherited methods after  type erasure. It is not allowed to create conditions that clash after the type is erased.
+8. Pay attention to inherited methods after  type erasure. It is not allowed to create conditions that clash after the type is erased.
    Consider GenericClassExample<String>. if we override equals , after type erasure there will be 2 methods with same signature which is illegal. the remedy is to rename the method.
    Also a generic class cannot implement the same interface twice but with different parameters (different parameterizations of the same interface).
 
@@ -59,21 +62,22 @@ Generic classes can extend or implement other generic classes. They are no diffe
 
 
 ### Wildcard types ###
-Wild card types help make generic more flexible. They are not used in the generic type definition (class Generic<? extends Serializable>; method/field declaration is not working,
+Wild card types help make generics more flexible. They are not used in the generic type definition (class Generic<? extends Serializable>; method/field declaration is not working,
 however  GenericClassExample<T extends Comparable<? super Object>> works).
 They are used only as reference parameters (in the caller class). After defining the reference with wildcard, a distinction arises between subtype and supertype wildcard bounds when it comes
 to passing them as parameters to methods and use them as return values.
 
-1. Subtype wildcard bounds (? extends Employee) - only subtype of Employee or Employee in our case can be used when constructing our parameterized type.
+1. Upper bounded wildcard (? extends Employee) - only subtype of Employee or Employee in our case can be used when constructing our parameterized type.
    You cannot supply parameters to methods, but you can use the return values. You can use to get values only references from up the inheritance tree.
    We cannot pass the type parameter reference after this (through setter for example) by putting another Employee or subtype. The compiler will complain because it does not know which
    subtype implementation is receiving. Getting the value however is possible and can be assigned to a Employee reference or supertype.
-2. Supertype wildcard bounds (? super Employee) - only supertype of Employee in our case can be used when constructing our parameterized type.
+2. Lower bounded wildcard (? super Employee) - only supertype of Employee in our case can be used when constructing our parameterized type.
    You can supply parameters to methods, but you can't use the return values. You can supply references from down the inheritance tree.
    We can pass the type parameter reference after this (through setter for example) by putting another Employee or subtype of Employee. The compiler will not complain
-   because
-   the reference is a subtype. Getting the value and assign it to a reference however is not possible because the actual implementation can vary.
-3. No bounds wildcards (<?>) -  cannot supply parameters after creation (not even Object type) and can be assigned only to Object reference.
+   because the reference is a subtype. Getting the value and assign it to a reference however is not possible because the actual implementation can vary. We can however get the value
+   and assign it to a Object reference (it is the supertype), or with the help of explicit cast to another reference.
+3. Unbounded wildcards (<?>) -  cannot supply parameters after creation (not even Object type) and can be assigned only to Object reference.
+   Useful when the code in the generic class does not depend on the type parameter or if we write methods that depend on methods from Object. It is used mostly for very generic methods.
 
 
 

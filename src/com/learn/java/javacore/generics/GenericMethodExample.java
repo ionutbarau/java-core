@@ -5,7 +5,7 @@ package com.learn.java.javacore.generics;
 /**
  * The class is not generic, but it has only a generic method which uses generic types.
  * Generic methods can be defined inside both generic and ordinary classes.
- * !!!! The type <T> is always declared before the actual use of it.
+ * !!!! The type <T> is always declared before the return type.
  * Type erasure happens for generic methods also. After compilation, the type parameter is erased and replace
  * by it's bound type or Object if there is unbound.
  * In case of polymorphic method invocation, compiler creates synthesized bridge methods

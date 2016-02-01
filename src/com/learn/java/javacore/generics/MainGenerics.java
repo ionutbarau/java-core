@@ -5,6 +5,8 @@ import com.learn.java.javacore.model.Manager;
 import com.learn.java.javacore.model.Workable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by x01027037 on 21.01.2016.
@@ -76,6 +78,27 @@ public class MainGenerics {
         //Only Object reference works
         Object obj = noBoundsWildcard.gettField();
 
-
+        doExercises();
     }
+
+
+    public static void doExercises(){
+        System.out.println("\n\n");
+        System.out.println("------------------ GenericExercises start ----------------\n\n");
+
+        List<Integer> myList = new ArrayList<>();
+        for(int i = 0; i < 10; i++){
+            myList.add(i);
+        }
+
+        GenericsExercises.countPrimeElements(myList);
+        GenericsExercises.exchangePositions(myList,3,4);
+        GenericsExercises.getMaximalFromRange(myList,3,6);
+
+        System.out.println("\n\n");
+        System.out.println("------------------ GenericExercises end ----------------");
+    }
+
+
+
 }
