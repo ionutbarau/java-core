@@ -6,7 +6,9 @@ import com.learn.java.javacore.model.Workable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by x01027037 on 21.01.2016.
