@@ -13,5 +13,10 @@ public class GenericInheritanceExample<T,U> extends GenericClassExample<T,U> {
         super(tField, uField);
     }
 
+    public void print(){
+        System.out.println("GenericInheritanceExample class print method is called instead of GenericClassExample");
+        super.print();
+    }
+
 
 }

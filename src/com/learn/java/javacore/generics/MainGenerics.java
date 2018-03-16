@@ -65,7 +65,7 @@ public class MainGenerics {
         Employee e1 = (Employee) genericSuperWildcard.gettField();
         Workable w = (Workable) genericSuperWildcard.gettField();
 
-        //Works without cast because Object is the las in the inheritance tree
+        //Works without cast because Object is the last in the inheritance tree
         Object o = genericSuperWildcard.gettField();
 
 
@@ -79,6 +79,14 @@ public class MainGenerics {
 
         //Only Object reference works
         Object obj = noBoundsWildcard.gettField();
+
+        //When using upper bound wildcards ( <? extends Employee> ) we cannot add/set anything but we can retrieve objects into a supertype reference
+        //When using unbound wildcards ( <?> ) we cannot set/add anything but we can retrieve objects only into an Object reference
+        //When using lower bound wildcards ( <? super Employee> ) we can add/set only Employee objects or subtype of Employee and we can only retrieve objects with explicit cast or Object reference without cast
+
+        //polymorphic method invocation for generic types inheritance
+        GenericClassExample<String,String> genericInheritanceExample = new GenericInheritanceExample<>("tField","uField");
+        genericInheritanceExample.print();
 
         doExercises();
     }
