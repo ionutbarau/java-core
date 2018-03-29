@@ -32,9 +32,9 @@ public interface FunctionalInterfaceExample {
     }
 
     /**
-     * A static method cannot be overridden in the implementation class. This why we can avoid poor implementation that can bring undesired results.
+     * A static method cannot be overridden in the implementation class. This way we can avoid poor implementation that can bring undesired results.
      * This method is visible inside the interface methods only, not in the implementation class.
-     * Of course we can call it in the implementation class by using {FunctionalInterfaceExample.doStatic().
+     * Of course we can call it in the implementation class by using FunctionalInterfaceExample.doStatic().
      * We cannot declare static methods with same signature as Objects methods.
      * If we try to override static methods @Override annotation in subclass, we will get an error. If we do not add the @Override annotation, it will just be a regular method of that class.
      * It is used for providing utility methods.
