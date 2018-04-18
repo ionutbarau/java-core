@@ -39,6 +39,8 @@ public class Java8FeaturesMain {
                 System.out.println(integer);
             }
         });
+        System.out.println("---forEach with Consumer sa lambda expression---");
+        myList.forEach(i -> System.out.println(i));//could also be written like this : myList.forEach((i) -> System.out.println(i));
     }
 
     /**
@@ -66,7 +68,7 @@ public class Java8FeaturesMain {
     }
 
     /**
-     * Streams are used for performing filter/map/reduce operations with collections.
+     * Streams are used for performing filter/map (apply some function to all the elements)/reduce (perform some computation on the list and return the result) operations with collections.
      * Allows sequential(Collection.steam()) and parallel execution(Collection.parallelStream()).
      */
     public static void stream(){
