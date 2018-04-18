@@ -1,6 +1,8 @@
 package com.learn.java.javacore.java8features;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -70,6 +72,7 @@ public class Java8FeaturesMain {
     /**
      * Streams are used for performing filter/map (apply some function to all the elements)/reduce (perform some computation on the list and return the result) operations with collections.
      * Allows sequential(Collection.steam()) and parallel execution(Collection.parallelStream()).
+     * The result of a stream operation will always be another Stream and it will not modify the initial collection
      */
     public static void stream(){
         Stream<Integer> sequentialStream = myList.stream();
@@ -78,5 +81,14 @@ public class Java8FeaturesMain {
         sequentialStream.filter(integer -> integer > 2).forEach(integer -> System.out.println(integer));
         System.out.println("---filter and forEach with parallel stream and lambda---");
         parallelStream.filter(p -> p > 1).forEach(integer -> System.out.println(integer));
+
+        //TODO use map and reduce
+        System.out.println("---map and forEach with sequential stream and lambda---");
+        //need to create the stream again so we don't get java.lang.IllegalStateException: stream has already been operated upon or closed
+        myList.stream().map(integer -> integer * 10).forEach(integer -> System.out.println(integer));
+        System.out.println("---map and forEach with parallel stream and lambda---");
+        myList.parallelStream().map(p -> p * 10).forEach(integer -> System.out.println(integer));
+
+
     }
 }
