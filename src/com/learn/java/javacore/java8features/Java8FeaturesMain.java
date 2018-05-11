@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
+import java.util.function.ToIntFunction;
 import java.util.stream.Stream;
 
 /**
@@ -70,7 +72,7 @@ public class Java8FeaturesMain {
     }
 
     /**
-     * Streams are used for performing filter/map (apply some function to all the elements)/reduce (perform some computation on the list and return the result) operations with collections.
+     * Streams are used for performing filter, map (apply some function to all the elements),reduce (perform some computation on the list eg. min, max and return the result) operations with collections.
      * Allows sequential(Collection.steam()) and parallel execution(Collection.parallelStream()).
      * The result of a stream operation will always be another Stream and it will not modify the initial collection
      */
@@ -88,6 +90,11 @@ public class Java8FeaturesMain {
         myList.stream().map(integer -> integer * 10).forEach(integer -> System.out.println(integer));
         System.out.println("---map and forEach with parallel stream and lambda---");
         myList.parallelStream().map(p -> p * 10).forEach(integer -> System.out.println(integer));
+
+        System.out.println("---reduce and forEach with sequential stream and lambda---");
+        //the :: notation is a shortcut for (integer, integer2) ->  Math.max(integer, integer2)
+        int result = myList.stream().reduce(Math::max).get();
+        System.out.println("Result for reduce = " + result);
 
 
     }
