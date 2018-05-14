@@ -1,4 +1,5 @@
 https://www.journaldev.com/2389/java-8-features-with-examples
 http://www.baeldung.com/java-8-functional-interfaces
+https://www.journaldev.com/2774/java-8-stream
 
 LAMBDA is an anonymous function that can be handled as first class language citizen, for instance passed to or returned from a method.

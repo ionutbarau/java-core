@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.ToIntFunction;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -84,7 +85,7 @@ public class Java8FeaturesMain {
         System.out.println("---filter and forEach with parallel stream and lambda---");
         parallelStream.filter(p -> p > 1).forEach(integer -> System.out.println(integer));
 
-        //TODO use map and reduce
+
         System.out.println("---map and forEach with sequential stream and lambda---");
         //need to create the stream again so we don't get java.lang.IllegalStateException: stream has already been operated upon or closed
         myList.stream().map(integer -> integer * 10).forEach(integer -> System.out.println(integer));
@@ -93,9 +94,18 @@ public class Java8FeaturesMain {
 
         System.out.println("---reduce and forEach with sequential stream and lambda---");
         //the :: notation is a shortcut for (integer, integer2) ->  Math.max(integer, integer2)
-        int result = myList.stream().reduce(Math::max).get();
-        System.out.println("Result for reduce = " + result);
+        System.out.println(myList.stream().reduce(Math::max).get());
+        System.out.println("---reduce and forEach with parallel stream and lambda---");
+        System.out.println(myList.parallelStream().reduce((integer, integer2) -> integer + integer2).get());
 
+        //TODO sorted and flatmap
+
+        //convert back from Stream to Collection example
+        System.out.println(myList.stream().collect(Collectors.toList()));
+        System.out.println(myList.stream().collect(Collectors.toMap(integer -> "index" + integer, integer -> integer)));
+        System.out.println(myList.stream().collect(Collectors.toSet()));
+        //convert from Stream to array
+        System.out.println(Arrays.toString(myList.stream().toArray()));
 
     }
 }
