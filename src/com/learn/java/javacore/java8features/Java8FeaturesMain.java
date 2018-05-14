@@ -1,13 +1,11 @@
 package com.learn.java.javacore.java8features;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -78,34 +76,53 @@ public class Java8FeaturesMain {
      * The result of a stream operation will always be another Stream and it will not modify the initial collection
      */
     public static void stream(){
+
+        //1. Create streams
+
+        Stream<Integer> s1 = Stream.of(1,2,3,4);
+        Stream<Integer> s2 = Stream.of(new Integer[]{1,2,3,4});
+        Stream<String> s3 = Stream.generate(() -> "abc");
+        Stream<String> s4 = Stream.iterate("abc", s -> s);
+        IntStream s5 = Arrays.stream(new int[]{1,2,3});
+        IntStream s6 = "abc".chars();
         Stream<Integer> sequentialStream = myList.stream();
         Stream<Integer> parallelStream = myList.parallelStream();
+
+        //2. Filter
         System.out.println("---filter and forEach with sequential stream and lambda---");
         sequentialStream.filter(integer -> integer > 2).forEach(integer -> System.out.println(integer));
         System.out.println("---filter and forEach with parallel stream and lambda---");
         parallelStream.filter(p -> p > 1).forEach(integer -> System.out.println(integer));
 
-
+        //3. Map
         System.out.println("---map and forEach with sequential stream and lambda---");
         //need to create the stream again so we don't get java.lang.IllegalStateException: stream has already been operated upon or closed
         myList.stream().map(integer -> integer * 10).forEach(integer -> System.out.println(integer));
         System.out.println("---map and forEach with parallel stream and lambda---");
         myList.parallelStream().map(p -> p * 10).forEach(integer -> System.out.println(integer));
 
+        //4. Reduce
         System.out.println("---reduce and forEach with sequential stream and lambda---");
         //the :: notation is a shortcut for (integer, integer2) ->  Math.max(integer, integer2)
         System.out.println(myList.stream().reduce(Math::max).get());
         System.out.println("---reduce and forEach with parallel stream and lambda---");
         System.out.println(myList.parallelStream().reduce((integer, integer2) -> integer + integer2).get());
 
+
+        //5. Sort
+        System.out.println("---sort and forEach with sequential stream and lambda---");
+        myList.stream().sorted().forEach(integer -> System.out.println(integer));
+        System.out.println("---reverse sort and forEach with sequential stream and lambda---");
+        myList.stream().sorted(Comparator.reverseOrder()).forEach(integer -> System.out.println(integer));
+
         //TODO sorted and flatmap
 
-        //convert back from Stream to Collection example
+        //7. Convert back from Stream to Collection example
         System.out.println(myList.stream().collect(Collectors.toList()));
         System.out.println(myList.stream().collect(Collectors.toMap(integer -> "index" + integer, integer -> integer)));
         System.out.println(myList.stream().collect(Collectors.toSet()));
         //convert from Stream to array
         System.out.println(Arrays.toString(myList.stream().toArray()));
-
     }
+
 }
