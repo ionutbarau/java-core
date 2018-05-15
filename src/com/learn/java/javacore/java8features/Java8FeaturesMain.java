@@ -89,19 +89,28 @@ public class Java8FeaturesMain {
         Stream<Integer> parallelStream = myList.parallelStream();
 
         //2. Filter
+        System.out.println("---Filter example---");
         System.out.println("---filter and forEach with sequential stream and lambda---");
         sequentialStream.filter(integer -> integer > 2).forEach(integer -> System.out.println(integer));
         System.out.println("---filter and forEach with parallel stream and lambda---");
         parallelStream.filter(p -> p > 1).forEach(integer -> System.out.println(integer));
 
         //3. Map
+        System.out.println("---Map example---");
         System.out.println("---map and forEach with sequential stream and lambda---");
         //need to create the stream again so we don't get java.lang.IllegalStateException: stream has already been operated upon or closed
         myList.stream().map(integer -> integer * 10).forEach(integer -> System.out.println(integer));
         System.out.println("---map and forEach with parallel stream and lambda---");
         myList.parallelStream().map(p -> p * 10).forEach(integer -> System.out.println(integer));
 
-        //4. Reduce
+        //4.Flatmap
+        System.out.println("---Flat map example---");
+        Stream<List<String>> listStream = Stream.of(Arrays.asList("Ionut"), Arrays.asList("Barau"));
+        Stream<String> stringStream = listStream.flatMap(list -> list.stream());
+        stringStream.forEach(string -> System.out.println(string));
+
+        //5. Reduce
+        System.out.println("---Reduce example---");
         System.out.println("---reduce and forEach with sequential stream and lambda---");
         //the :: notation is a shortcut for (integer, integer2) ->  Math.max(integer, integer2)
         System.out.println(myList.stream().reduce(Math::max).get());
@@ -109,20 +118,25 @@ public class Java8FeaturesMain {
         System.out.println(myList.parallelStream().reduce((integer, integer2) -> integer + integer2).get());
 
 
-        //5. Sort
+        //6. Sort
+        System.out.println("---Sort example---");
         System.out.println("---sort and forEach with sequential stream and lambda---");
         myList.stream().sorted().forEach(integer -> System.out.println(integer));
         System.out.println("---reverse sort and forEach with sequential stream and lambda---");
         myList.stream().sorted(Comparator.reverseOrder()).forEach(integer -> System.out.println(integer));
 
-        //TODO sorted and flatmap
+        //7. Count
+        System.out.println("---Count example---");
+        System.out.println("Number of elements in myList is " + myList.stream().count());
 
-        //7. Convert back from Stream to Collection example
+        //8. Convert back from Stream to Collection example
+        System.out.println("---Conversion from stream to collection example---");
         System.out.println(myList.stream().collect(Collectors.toList()));
         System.out.println(myList.stream().collect(Collectors.toMap(integer -> "index" + integer, integer -> integer)));
         System.out.println(myList.stream().collect(Collectors.toSet()));
         //convert from Stream to array
         System.out.println(Arrays.toString(myList.stream().toArray()));
+
     }
 
 }
