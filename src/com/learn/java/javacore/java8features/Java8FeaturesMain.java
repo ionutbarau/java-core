@@ -129,7 +129,23 @@ public class Java8FeaturesMain {
         System.out.println("---Count example---");
         System.out.println("Number of elements in myList is " + myList.stream().count());
 
-        //8. Convert back from Stream to Collection example
+        //8. Match
+        System.out.println("---Match examples---");
+        System.out.println("AllMatch < 10 = " + myList.stream().allMatch(i -> i<10));
+        System.out.println("AnyMatch < 5 = " + myList.stream().anyMatch(i -> i<5));
+        System.out.println("NoneMatch < 5 = " + myList.stream().noneMatch(i -> i<5));
+
+        //9. Find first
+        System.out.println("---Find first example---");
+        Optional<Integer> resultFirst = myList.stream().filter(i -> i < 5).findFirst();
+        System.out.println("FindFirst result = " + (resultFirst.isPresent()? resultFirst.get() : "no result found"));
+
+        //10. Find any
+        System.out.println("---Find first example---");
+        Optional<Integer> resultAny = myList.stream().filter(i -> i < 5).findAny();
+        System.out.println("FindAny result = " + (resultAny.isPresent()? resultAny.get() : "no result found"));
+
+        //11. Convert back from Stream to Collection example
         System.out.println("---Conversion from stream to collection example---");
         System.out.println(myList.stream().collect(Collectors.toList()));
         System.out.println(myList.stream().collect(Collectors.toMap(integer -> "index" + integer, integer -> integer)));
