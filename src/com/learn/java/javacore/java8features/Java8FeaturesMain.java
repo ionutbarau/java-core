@@ -145,13 +145,22 @@ public class Java8FeaturesMain {
         Optional<Integer> resultAny = myList.stream().filter(i -> i < 5).findAny();
         System.out.println("FindAny result = " + (resultAny.isPresent()? resultAny.get() : "no result found"));
 
-        //11. Convert back from Stream to Collection example
+        //11. Limit (short circuit operation)
+        System.out.println("---Limit example---");
+        myList.stream().limit(2).forEach(i -> System.out.println(i));
+
+        //12. Skip (short circuit operation)
+        System.out.println("---Skip example---");
+        myList.stream().skip(7).forEach(i -> System.out.println(i));
+
+        //13. Convert back from Stream to Collection example
         System.out.println("---Conversion from stream to collection example---");
         System.out.println(myList.stream().collect(Collectors.toList()));
         System.out.println(myList.stream().collect(Collectors.toMap(integer -> "index" + integer, integer -> integer)));
         System.out.println(myList.stream().collect(Collectors.toSet()));
         //convert from Stream to array
         System.out.println(Arrays.toString(myList.stream().toArray()));
+
 
     }
 
