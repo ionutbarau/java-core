@@ -1,5 +1,16 @@
 package com.learn.java.javacore.java8features;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
@@ -7,6 +18,8 @@ import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 /**
  * User: Ionut Barau (ionutbarau)
@@ -26,6 +39,8 @@ public class Java8FeaturesMain {
         forEachInIterableInterface();
         lambdaExpressions();
         stream();
+        dateTimeApi();
+        collectionApi();
     }
 
 
@@ -160,8 +175,76 @@ public class Java8FeaturesMain {
         System.out.println(myList.stream().collect(Collectors.toSet()));
         //convert from Stream to array
         System.out.println(Arrays.toString(myList.stream().toArray()));
+    }
 
+    public static void dateTimeApi(){
+        //1.LocalDate
+        LocalDate ld1  = LocalDate.now();
+        System.out.println(ld1);
+        LocalDate ld2 = LocalDate.of(1999, Month.APRIL, 4);
+        System.out.println(ld2);
+        LocalDate ld3 = LocalDate.now(ZoneId.of("Europe/Bucharest"));
+        System.out.println(ld3);
+        //getting date from a base date
+        LocalDate ld4 = LocalDate.ofYearDay(2014, 100);
+        System.out.println(ld4);
 
+        //2.LocalTime
+        LocalTime lt1 = LocalTime.now();
+        System.out.println(lt1);
+        LocalTime lt2 = LocalTime.of(22,12,20,40);
+        System.out.println(lt2);
+        LocalTime lt3 = LocalTime.now(ZoneId.of("Europe/Bucharest"));
+        System.out.println(lt3);
+        LocalTime lt4 = LocalTime.ofSecondOfDay(10000);
+        System.out.println(lt4);
+
+        //3.LocalDateTime
+        LocalDateTime ldt1 = LocalDateTime.now();
+        System.out.println(ldt1);
+        LocalDateTime ldt2 = LocalDateTime.of(2014, Month.APRIL, 22,22,12,20,40);
+        System.out.println(ldt2);
+        LocalDateTime ldt3 = LocalDateTime.now(ZoneId.of("Europe/Bucharest"));
+        System.out.println(ldt3);
+
+        //4.Instant (machine readable unix timestamp)
+        Instant instant1 = Instant.now();
+        System.out.println(instant1);
+        Instant instant2 = Instant.ofEpochMilli(1000);
+        System.out.println(instant2);
+        Duration duration = Duration.ofDays(30);
+        System.out.println(duration);
+
+        //5. TemporalAdjuster
+        LocalDate today = LocalDate.now();
+        System.out.println(today.isLeapYear());
+        System.out.println(today.isBefore(LocalDate.of(2015,1,1)));
+        System.out.println(today.plusDays(2));
+        System.out.println(today.atTime(LocalTime.now()));
+        System.out.println(today.with(TemporalAdjusters.firstDayOfMonth()));
+        Period period = today.until(LocalDate.of(2019,1,1));
+        System.out.println(period.getMonths());
+
+        //6.Parsing and formatting
+        LocalDate now = LocalDate.now();
+        System.out.println(now.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+
+        //7.Conversion from legacy classes
+        System.out.println(LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault()));
+        System.out.println(Date.from(Instant.now()));
+
+    }
+
+    public static void collectionApi(){
+        myList.removeIf(integer -> integer > 5);
+        myList.iterator().forEachRemaining(integer -> System.out.println(integer));
+        myList.spliterator().forEachRemaining(integer -> System.out.println(integer));
+        myList.replaceAll(integer -> integer *10);
+        myList.forEach(integer -> System.out.println(integer));
+
+        Map<String, Integer> myMap = myList.stream().collect(Collectors.toMap(integer -> "index" + integer, integer -> integer));
+        myMap.compute("index10",(key, value) -> value * 10);
+        myMap.forEach((key,val) -> System.out.println(key+ "-" + val));
     }
 
 }
