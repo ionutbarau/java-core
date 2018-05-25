@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.ToIntFunction;
@@ -242,9 +243,28 @@ public class Java8FeaturesMain {
         myList.replaceAll(integer -> integer *10);
         myList.forEach(integer -> System.out.println(integer));
 
-        Map<String, Integer> myMap = myList.stream().collect(Collectors.toMap(integer -> "index" + integer, integer -> integer));
-        myMap.compute("index10",(key, value) -> value * 10);
-        myMap.forEach((key,val) -> System.out.println(key+ "-" + val));
+
+        ConcurrentHashMap<String, Integer> myMap = new ConcurrentHashMap<>();
+        myMap.put("index1",1);
+        myMap.put("index2",2);
+        myMap.compute("index1",(key, value) -> value * 10);
+        myMap.forEach(1,(key,val) -> System.out.println(key+ "-" + val));
+        myMap.forEachEntry(1,(entry) -> System.out.println(entry.getKey()+ "-" + entry.getValue()));
+        myMap.forEachKey(1,(key) -> System.out.println(key));
+        myMap.forEachValue(1,(value) -> System.out.println(value));
+        System.out.println("Search result = " + myMap.search(1,(key,value) -> value==10));
+        myMap.merge("index1",10,(key,value) -> value * 10);
+        System.out.println(myMap);
+        System.out.println(myMap.reduce(1,(key,value)-> value * 10, (total, nextElement) -> total + nextElement).intValue());
+        myMap.replaceAll((key,value)-> {
+            if (key.equals("index1")) {
+                return 555;
+            }
+            return value;
+        });
+        System.out.println(myMap);
+
+
     }
 
 }
