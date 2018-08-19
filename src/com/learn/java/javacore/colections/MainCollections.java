@@ -1,7 +1,5 @@
 package com.learn.java.javacore.colections;
 
-import java.util.*;
-
 /**
  * User: Ionut Barau (ionutbarau)
  * Project: java-core
@@ -10,17 +8,35 @@ import java.util.*;
  */
 public class MainCollections {
 
+    public static CollectionExample collectionExample = new CollectionExample();
+    public static SetExample setExample = new SetExample();
+    public static MapExample mapExample = new MapExample();
+    public static ListExample listExample = new ListExample();
+    public static QueueExample queueExample = new QueueExample();
+
     public static void main(String[] args){
-        Set<String> set = new TreeSet<>();
-        set.add("a");
-        set.add("c");
-        set.add("b");
-        set.add("de");
-        set.add("fg");
-        set.stream().filter(l -> l.length()>1).forEach(l -> System.out.println(l));
+        collectionExample.basicOperations();
+        collectionExample.bulkOperations();
+        collectionExample.traverseCollectionOperations();
+        collectionExample.toArrayOperation();
 
+        setExample.hashSetImplementation();
+        setExample.linkedHashSetImplementation();
+        setExample.treeSetImplementation();
 
+        mapExample.basicOperations();
+        mapExample.bulkOperations();
+        mapExample.collectionViews();
+        mapExample.hashMapImplementation();
+        mapExample.linkedHashMapImplementation();
+        mapExample.treeMapImplementation();
 
+        listExample.positionalAccessAndSearchOperations();
+        listExample.listAlgorithms();
+        listExample.arrayListImplementation();
+        listExample.linkedListImplementation();
+
+        queueExample.queueExample();
     }
 
 }
