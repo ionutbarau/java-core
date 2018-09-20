@@ -37,9 +37,9 @@ public class QueueExample {
         System.out.println("Return but not remove the head of the queue with peek() : " + queue.peek());
 
         //Return and remove the head of the queue with remove()
-        System.out.println("Return but not remove the head of the queue with remove() : " + queue.remove());
+        System.out.println("Return and remove the head of the queue with remove() : " + queue.remove());
         //Return and remove the head of the queue with poll()
-        System.out.println("Return but not remove the head of the queue with poll() : " + queue.poll());
+        System.out.println("Return and remove the head of the queue with poll() : " + queue.poll());
 
     }
 }

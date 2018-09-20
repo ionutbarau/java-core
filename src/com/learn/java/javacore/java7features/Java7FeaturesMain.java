@@ -10,8 +10,12 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.RecursiveTask;
 
 /**
  * User: Ionut Barau (ionutbarau)
@@ -31,6 +35,7 @@ public class Java7FeaturesMain {
         tryWithResources();
         nio();
         forkJoin();
+
         System.exit(1);
     }
 
@@ -90,19 +95,61 @@ public class Java7FeaturesMain {
         }
     }
 
+    /**
+     * The goal is to break a big task into multiple smaller tasks and run them in parallel (divide and conquer), and joining them at the end.
+     * It is based on Executor Service(used for processing independent request in parallel), but implements divide an conquer.
+     * It is intended only for breaking a big task into smaller subtasks. For any other scenario, use Executor Service.
+     *
+     */
     public static void forkJoin(){
         int numberOfCPU = Runtime.getRuntime().availableProcessors();
         System.out.println("Running fork and join on " + numberOfCPU + " processors...");
-        ForkJoinPool pool = new ForkJoinPool(numberOfCPU);
-        pool.invoke(new MyTask());
+        ForkJoinPool pool = new ForkJoinPool(numberOfCPU); //we can also use the ForkJoinPool.commonPool() which is actually recommended
+
+        //use ForkJoinPool to run on a specific pool that you just created
+        System.out.println(pool.invoke(new MyTask(2000)));
+
 
     }
 
-    public static class MyTask extends RecursiveAction{
+    public static class MyTask extends RecursiveTask<Integer> {
+
+        private int val;
+
+        public MyTask(int val){
+            this.val = val;
+        }
 
         @Override
-        protected void compute() {
-            System.out.println("Compute..");
+        protected Integer compute() {
+            //if the value is too big then use fork join task in order to process in parallel
+            if(val > 100){
+                List<MyTask> tasks = new ArrayList<>();
+                for(int i=0;i<val;i=i+100){
+
+                    int reminderVal = val-i;
+                    if(reminderVal < 100){
+                        tasks.add(new MyTask(reminderVal));
+                    }else{
+                        tasks.add(new MyTask(100));
+                    }
+                }
+                return ForkJoinTask.invokeAll(tasks).stream().mapToInt(ForkJoinTask::join).sum();
+
+            }else{
+                return doPreocessing();
+            }
+
+        }
+
+        private int doPreocessing(){
+            int total = 0;
+
+            for(int i = 0;i<val;i++){
+                total+=i;
+            }
+
+            return total;
         }
     }
 }

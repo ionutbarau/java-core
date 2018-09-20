@@ -1,26 +1,14 @@
 package com.learn.java.javacore.java8features;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.Period;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
-import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
-import com.sun.org.apache.xpath.internal.SourceTree;
 
 /**
  * User: Ionut Barau (ionutbarau)
@@ -58,7 +46,7 @@ public class Java8FeaturesMain {
                 System.out.println(integer);
             }
         });
-        System.out.println("---forEach with Consumer sa lambda expression---");
+        System.out.println("---forEach with Consumer as lambda expression---");
         myList.forEach(i -> System.out.println(i));//could also be written like this : myList.forEach((i) -> System.out.println(i));
     }
 
