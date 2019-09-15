@@ -103,5 +103,9 @@ public class ListExample {
         linkedList.add(2);
         linkedList.add(null);
         System.out.println(linkedList);
+        //stack operations
+        System.out.println("Peek : " + linkedList.peek());
+        linkedList.push(3);
+        System.out.println("Pop : " + linkedList.pop());
     }
 }

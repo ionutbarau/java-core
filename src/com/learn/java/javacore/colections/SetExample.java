@@ -27,12 +27,15 @@ public class SetExample {
      * It is the best performing implementation. Operations(add, remove, contains) are faster than in LinkedHashSet or TreeSet, because
      * it does not provide any order or sorting.
      * Iteration is likely to be slower than LinkedHashSet.
-     * HashSet is is backed by a HashMap. It makes no guarantees as to the iteration order of the set. It does not
+     * HashSet is is backed by a specialized HashMap. It makes no guarantees as to the iteration order of the set. It does not
      * guarantee that the order will remain constant overtime.
      * Permits the null element.
      * Because it is using a HashMap underneath, good hashcode and equals for the elements is needed.
      * All the operations are performed on the backing HashMap.
      * It is not synchronized.
+     * Provides constant time performance for add, remove, contains, and size.
+     * Its main disadvantage is its iteration performance; since iterating through the underlying HashMap involves examining every bucket,
+     * its cost is proportional to the table size regardless of the size of the set it contains.
      */
     public void hashSetImplementation() {
         System.out.println("--- HashSet implementation ---");
@@ -55,6 +58,10 @@ public class SetExample {
      * It is not synchronized.
      * Operations(add, remove, contains) are faster than TreeSet but slower than HashSet, because it does provide an order but no sorting.
      * Iteration is faster than HashSet but slower than TreeSet.
+     * When it iterates it skips the unoccupied buckets, that's why it is faster than HashSet.
+     * Add and remove are slower than HashSet because it has to maintain a doubly linked list.
+     * Choose LinkedHashSet in preference to HashSet only if the order or the efficiency of iteration were important
+     * for your application.
      *
      */
     public void linkedHashSetImplementation(){
@@ -71,7 +78,7 @@ public class SetExample {
     /**
      * Implements SortedSet and NavigableSet.
      * It's operations(add, remove, contains) are the slowest of all because it's elements are sorted.
-     * Iteration is the fastest out of all Map implementations.
+     * Iteration is the fastest out of all Set implementations.
      * The elements are stored in a red-black tree and are ordered based on the
      * natural ordering of it's values (or Comparator if provided).
      * It uses a TreeMap internally.
@@ -86,6 +93,15 @@ public class SetExample {
         treeSet.add(3);
         treeSet.add(2);
         System.out.println(treeSet);
+    }
+
+    /**
+     * It is thread-safe.
+     * It is implemented as a thin wrapper around an instance of CopyOnWriteArrayList, which in turn is backed by an array.
+     * The underlying array is immutable, so a change in the contents of the set results in creating an entirely new array.
+     */
+    public void copyOnWriteArraySetImplementation(){
+
     }
 
 

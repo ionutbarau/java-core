@@ -12,10 +12,7 @@ import java.nio.file.WatchService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveAction;
-import java.util.concurrent.RecursiveTask;
+import java.util.concurrent.*;
 
 /**
  * User: Ionut Barau (ionutbarau)
@@ -28,12 +25,12 @@ public class Java7FeaturesMain {
     public static final Integer NUMERIC_LITERAL_WITH_UNDERSCORE = 10_000;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        multiCatchAndStringsInSwitchExample("a");
+        /*multiCatchAndStringsInSwitchExample("a");
         multiCatchAndStringsInSwitchExample("b");
         multiCatchAndStringsInSwitchExample("c");
 
         tryWithResources();
-        nio();
+        nio();*/
         forkJoin();
 
         System.exit(1);
@@ -106,8 +103,31 @@ public class Java7FeaturesMain {
         System.out.println("Running fork and join on " + numberOfCPU + " processors...");
         ForkJoinPool pool = new ForkJoinPool(numberOfCPU); //we can also use the ForkJoinPool.commonPool() which is actually recommended
 
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        executorService.submit(()->{
+            while(!pool.isShutdown()) {
+                //check the active threads from other threads, because fork join is blocking
+                System.out.println("Active threads : " + pool.getActiveThreadCount());
+            }
+        });
         //use ForkJoinPool to run on a specific pool that you just created
         System.out.println(pool.invoke(new MyTask(2000)));
+
+        pool.shutdown();
+        executorService.shutdown();
+        try {
+            pool.awaitTermination(3,TimeUnit.SECONDS);
+
+            executorService.awaitTermination(3,TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
 
 
     }
@@ -144,7 +164,6 @@ public class Java7FeaturesMain {
 
         private int doPreocessing(){
             int total = 0;
-
             for(int i = 0;i<val;i++){
                 total+=i;
             }
