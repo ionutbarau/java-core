@@ -1,9 +1,8 @@
 package com.learn.java.javacore.colections;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Extends Collection interface.
@@ -73,7 +72,7 @@ public class ListExample {
      * It is a resizable array.(new array is created and the old one is copied into it)
      * Permits null elements.
      * It is not synchronized.
-     * Search and retrieval is faster in ArrayList compared to LinkedList.
+     * Search (retrieval) is faster in ArrayList compared to LinkedList.(O(1))
      * Deletion and insertion is slower than LinkedList, because all the elements need to be shifted.
      *
      */
@@ -92,7 +91,7 @@ public class ListExample {
      * It is a doubly linked list with 2 nodes that point to prev and next elements.
      * Permits null elements.
      * It is not synchronized.
-     * Search and retrieval is slower in LinkedList compared to ArrayList.
+     * Search (retrieval) is slower in LinkedList compared to ArrayList.(O(n))
      * Deletion and insertion is faster than ArrayList, because it requires only a change in the pointer location.
      *
      */
@@ -108,4 +107,40 @@ public class ListExample {
         linkedList.push(3);
         System.out.println("Pop : " + linkedList.pop());
     }
+
+    /**
+     * Concurrent alternative to a synchronized List.
+     * Allows concurrent readers and replaces the whole list on write operations.
+     * Because write operations are costly, it is useful when there are more read operations than write.
+     * It's iterator does not allows modification of the list while iterating through it.
+     * It is allowed to modify the list while iterating with enhanced for loop or iterator.(does not throw ConcurrentModificationException)
+     */
+    public void copyOnWriteArrayListImplementation() {
+        System.out.println("--- CopyOnWriteArrayList ---");
+        CopyOnWriteArrayList<String> myList= new CopyOnWriteArrayList<>();
+        myList.add("a");
+        myList.add("b");
+        myList.add("c");
+        //throws UnsupportedOperationException
+        try {
+            Iterator<String> it = myList.iterator();
+            while (it.hasNext()) {
+                it.remove();
+                //myList.remove(it.next()); //Does not throw ConcurrentModificationException
+            }
+        }catch (UnsupportedOperationException e) {
+            System.out.println(e);
+        }
+
+        for(String s : myList){
+            myList.remove(s); //Does not throw ConcurrentModificationException
+        }
+
+
+        System.out.println("CopyOnWriteArrayList after modification = "  + myList);
+
+
+    }
+
+
 }

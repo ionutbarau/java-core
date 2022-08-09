@@ -72,7 +72,7 @@ public class MapExample {
     }
 
     /**
-     * Permits null values and null keys. However if we decide to put a null key twice, it will override the first.
+     * Permits null values and null keys, however if we decide to put a null key twice, it will override the first.
      * It is not synchronized.
      * The bucket itself is a simple linked list with one node (Not java.util.LinkedList because it is doubly linked, has 2 nodes).
      * Makes no guarantees as to the order of the map.
@@ -115,7 +115,7 @@ public class MapExample {
 
     /**
      * Does not permit null keys, but permits null values.
-     * It is sorted according with the natural ordering of it's keys, or by a Comparator depending on the constructor.
+     * It is sorted according to the natural ordering of its keys, or by a Comparator depending on the constructor.
      * Operations (add, contains, remove, size) are slower than HashMap and LinkedHashMap.
      * It uses Red Black algorithm.
      * Iteration is the fastest.

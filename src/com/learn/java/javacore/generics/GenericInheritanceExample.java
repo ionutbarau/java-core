@@ -1,7 +1,5 @@
 package com.learn.java.javacore.generics;
 
-import java.io.Serializable;
-
 /**
  * Inheritance example with generics. Only a generic class can extend other generic class because
  * it is mandatory to add type parameters on the implementor. It has to have the same number of type parameters.

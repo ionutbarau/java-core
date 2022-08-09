@@ -27,7 +27,7 @@ public class MainStrings {
         System.out.println("String pool test...");
         String s1 = "xyz";
         String s2 = "xyz";// == with s1 because we use string literal, and they are picked up from pool if they already exists
-        String s3 = new String("xyz"); // == fails because by using new operator, we force String class to create anew string on the heap
+        String s3 = new String("xyz"); // == fails because by using new operator, we force String class to create a new string on the heap
         // instead of picking up from the pool
         System.out.println("S1 should be == with S2 -> " + (s1 == s2));
         System.out.println("S1 should be != with S3 -> " + (s1 == s3));

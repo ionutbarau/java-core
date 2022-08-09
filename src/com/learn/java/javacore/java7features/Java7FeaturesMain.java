@@ -94,7 +94,7 @@ public class Java7FeaturesMain {
 
     /**
      * The goal is to break a big task into multiple smaller tasks and run them in parallel (divide and conquer), and joining them at the end.
-     * It is based on Executor Service(used for processing independent request in parallel), but implements divide an conquer.
+     * It is based on Executor Service(used for processing independent request in parallel), but implements divide and conquer.
      * It is intended only for breaking a big task into smaller subtasks. For any other scenario, use Executor Service.
      *
      */

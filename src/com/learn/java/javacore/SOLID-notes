@@ -1,0 +1,7 @@
+https://www.baeldung.com/solid-principles
+
+S. Single Responsibility - a class should have only one responsibility
+O. Open/Closed - a class should be closed for modification, and open for extension (inheritence)
+L. Liskov Substitution - if a class A is a subtype of class B, then we should be able to replace B with A without disrupting the program
+I. Interface Segregation - larger interfaces should be split into smaller ones. This way ensuring that classes can implement only the methods that are of interest.
+D. Dependency Inversion -  use dependecy injection and depend on abstractions. This way we achieve loose coupling
